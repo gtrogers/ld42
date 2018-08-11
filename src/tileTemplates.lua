@@ -8,6 +8,7 @@ local reify = function (self, x, y)
     sprite = self.tile.sprite,
     onTouch = self.tile.onTouch,
     solid = self.tile.solid,
+    onTick = self.tile.onTick,
     x = x,
     y = y
   }
@@ -15,7 +16,7 @@ local reify = function (self, x, y)
   return tile
 end
 
-local template = function (img, id, onHit, collider, solid, onTouch)
+local template = function (img, id, onHit, collider, solid, onTouch, onTick)
   local template = {}
 
   if img then img:setFilter('nearest', 'nearest') end
@@ -27,6 +28,7 @@ local template = function (img, id, onHit, collider, solid, onTouch)
     id=id,
     solid=solid,
     onTouch = onTouch,
+    onTick = onTick
   }
 
   template.reify = reify
@@ -135,6 +137,20 @@ templates.SWITCHABLE = template(
   collider,
   true,
   nil
+)
+
+local shoot = function (self, dt, scene)
+  scene.turretManager:spawnBullet(self.x * 32 + 16, self.y * 32 + 16, 1)
+end
+
+templates.TURRET = template(
+  love.graphics.newImage('assets/tiles/turret.png'),
+  'turret',
+  'nil',
+  collider,
+  true,
+  nil,
+  shoot
 )
 
 return templates

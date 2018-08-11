@@ -19,11 +19,12 @@ local draw = function (self, screen, color)
 end
 
 local update = function (self, dt, game)
-  self.x = self.x + dt*5 * self.direction
+  self.x = self.x + dt*self.speed * self.direction
 end
 
-return function (direction, x) 
+return function (direction, x, speed) 
   local vertEdge = {}
+  vertEdge.speed = speed
   vertEdge.x = x
   vertEdge.direction = direction
   vertEdge.sprite = love.graphics.newImage('assets/tiles/edge.png')

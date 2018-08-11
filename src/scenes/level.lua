@@ -5,6 +5,7 @@ local pause = require('src.scenes.pause')
 local bullets = require('src.ents.bullets')
 local between = require('src.scenes.between')
 local levels = require('src.levels')
+local turretManager = require('src.ents.turretManager')
 
 local START_X = (16*32) / 2 - 16
 local START_Y = 650
@@ -32,14 +33,16 @@ local reload = function (self, level)
   
   self.color = level.color
   self.player = player(START_X, START_Y)
-  self.leftEdge = vertEdge(1, -32)
-  self.rightEdge = vertEdge(-1, 32*17)
+  self.leftEdge = vertEdge(1, -32, level.difficulty * 10)
+  self.rightEdge = vertEdge(-1, 32*17, level.difficulty * 10)
   self.bulletManager = bullets()
+  self.turretManager = turretManager()
   self.entities = {
     self.player,
     self.leftEdge,
     self.rightEdge,
-    self.bulletManager
+    self.bulletManager,
+    self.turretManager
   }
 
   self.done = false
@@ -63,9 +66,13 @@ local update = function (self, dt, game)
     if tile.onTouch and tile:collides(player.x, player.y, 32) then
       tile:onTouch(ent, self, game)
     end
+    if tile.onTick then
+      tile:onTick(dt, self)
+    end
   end
 
   self.bulletManager:collisions(self.map)
+  self.turretManager:collisions(self.player)
 end
 
 local moveable = function (self, x, y, w)

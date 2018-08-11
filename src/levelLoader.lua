@@ -7,6 +7,7 @@ TILE_NAMES['2552550255'] = tileTemplates.WARP_LEFT
 TILE_NAMES['0255255255'] = tileTemplates.WARP_RIGHT
 TILE_NAMES['2550255255'] = tileTemplates.SWITCH
 TILE_NAMES['255200255255'] = tileTemplates.SWITCHABLE
+TILE_NAMES['25500255'] = tileTemplates.TURRET
 
 local pixelToTile = function (pixel, x, y)
   local tile = nil

@@ -33,6 +33,7 @@ end
 
 love.draw = function ()
   GAME.scenes:draw(GAME.screen)
+  love.graphics.print(love.timer.getFPS())
 end
 
 love.keypressed = function (key)

@@ -39,7 +39,7 @@ end
 return function ()
   local bullets = {}
   bullets.lifetime = 3
-  bullets.speed = 100
+  bullets.speed = 200
   bullets.rechargeTime = 0.1
   bullets.cooldown = 0
   bullets.bullets = {}

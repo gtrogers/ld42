@@ -23,8 +23,7 @@ end
 local moveable = function (self, x, y, w)
   local allowed = true
   for _, tile in ipairs(self.map) do
-    if tile.collides and tile:collides(x, y, w) then
-      print('collision')
+    if tile.solid and tile:collides(x, y, w) then
       allowed = false
       break
     end
@@ -48,12 +47,12 @@ local draw = function (self, screen)
   local xOffset = screen.tall.xOffset
   local yOffset = screen.tall.yOffset
   local phase = math.sin(math.pi * self.phaser)/3 + 0.66
+
   love.graphics.push()
   love.graphics.translate(xOffset, yOffset)
   
   -- tiles
   love.graphics.setColor(0, phase*255, phase*255, 255)
-
   local lEdge = self.leftEdge.x
   local rEdge = self.rightEdge.x
 
@@ -61,10 +60,8 @@ local draw = function (self, screen)
     if tile.tile ~= 'empty' and tile.x*32 > lEdge and (tile.x + 1)*32 < rEdge then
       local x = tile.x
       local y = tile.y
-      local sprite = self.wall
-      if tile.tile == 'destructable' then sprite = self.destructable end
       love.graphics.draw(
-        sprite,
+        tile.sprite,
         x * scale * 8,
         y * scale * 8,
         0,

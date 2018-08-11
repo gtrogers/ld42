@@ -1,5 +1,6 @@
 local spawnBullet = function (self, x, y)
   if self.cooldown ~= 0 then return end
+  self.sound:play()
   table.insert(self.bullets, {x=x, y=y, t=0})
   self.cooldown = self.rechargeTime
 end
@@ -24,19 +25,32 @@ local draw = function (self, screen)
   end
 end
 
+local collisions = function (self, map)
+  for i, bullet in ipairs(self.bullets) do
+    for j, tile in ipairs(map) do
+      if tile.onHit and tile:collides(bullet.x, bullet.y, 32) then
+        tile:onHit()
+        table.remove(self.bullets, i)
+      end
+    end
+  end
+end
+
 return function ()
   local bullets = {}
   bullets.lifetime = 3
   bullets.speed = 100
-  bullets.rechargeTime = 0.5
+  bullets.rechargeTime = 0.1
   bullets.cooldown = 0
   bullets.bullets = {}
   bullets.bullet = love.graphics.newImage('assets/ships/bullets.png')
   bullets.bullet:setFilter('nearest', 'nearest')
+  bullets.sound = love.audio.newSource('assets/sfx/laser.wav')
 
   bullets.update = update
   bullets.draw = draw
   bullets.spawnBullet = spawnBullet
+  bullets.collisions = collisions
 
   return bullets
 end

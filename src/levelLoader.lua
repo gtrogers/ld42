@@ -18,12 +18,21 @@ local collides = function (self, x, y, size)
     (entTop < tileBottom) and (entBottom > tileTop)
 end
 
+local onHit = function (self)
+  local s =love.audio.newSource('assets/sfx/small_explosion.wav')
+  s:play()
+  self.collides = nil
+  self.onHit = nil
+  self.tile = 'empty'
+end
+
 local pixelToTile = function (pixel, x, y)
   local tile = {x = x, y = y, tile = 'empty'}
 
   if TILE_NAMES[pixel] then
     tile.tile = TILE_NAMES[pixel]
     tile.collides = collides
+    if tile.tile == 'destructable' then tile.onHit = onHit end
   end
 
   return tile

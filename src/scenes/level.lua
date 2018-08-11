@@ -16,6 +16,8 @@ local update = function (self, dt, game)
   if playerX - 32 < self.leftEdge.x or playerX + 64 > self.rightEdge.x then
     self.player:explode()
   end
+
+  self.bulletManager:collisions(self.map)
 end
 
 local moveable = function (self, x, y, w)

@@ -10,14 +10,22 @@ local update = function (self, dt, game, scene)
   local mag2 = dx * dx + dy * dy
   
   if mag2 > 0 then
-    -- TODO - subpixel movement
     local mag = math.sqrt(mag2)
-    local newX = self.x + (dx/mag) * self.speed
-    local newY = self.y + (dy/mag) * self.speed
+    local unitX = dx/mag
+    local unitY = dy/mag
+    local moved = 0
+    local blocked = false
+    while moved < self.speed and not blocked do
+      local newX = self.x + unitX
+      local newY = self.y + unitY
 
-    if scene:moveable(newX, newY, 32) then
-      self.x = newX
-      self.y = newY
+      if scene:moveable(newX, newY, 32) then
+        self.x = newX
+        self.y = newY
+        moved = moved + mag
+      else
+        blocked = true
+      end
     end
   end
 end

@@ -4,12 +4,12 @@ TILE_NAMES['02550255'] = 'wall'
 local collides = function (self, x, y, size)
   -- TODO move tile into a class
   -- FIXME assuming the player is the same size as the tile
-  local entLeft = x
-  local entRight = x + size
+  local entLeft = x + 1
+  local entRight = x + (size-2)
   local tileLeft = self.x * size
   local tileRight = tileLeft + size
-  local entTop = y
-  local entBottom = y + size
+  local entTop = y + 1
+  local entBottom = y + size - 2
   local tileTop = self.y * size
   local tileBottom = tileTop + size
 

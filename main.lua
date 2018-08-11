@@ -3,15 +3,31 @@ local level = require('src.scenes.level')
 
 local GAME = {}
 
+local setUpScreen = function ()
+  local tileSize = 8
+  local screenWidth = love.graphics.getWidth()
+  local screenHeight = love.graphics.getHeight()
+  print('Setting up window: ' .. screenWidth .. ' x ' .. screenHeight) 
+  return {
+    scale = 4,
+    tall = {
+      width=16, 
+      height=22,
+      xOffset=(screenWidth - 16*32)/2,
+      yOffset=0
+    }
+  }
+end
+
 love.load = function ()
   GAME.scenes = sceneHandler()
   GAME.scenes:push(level())
 
-  GAME.screen = {scale = 4}
+  GAME.screen = setUpScreen()
 end
 
-love.update = function ()
-  GAME.scenes:update()
+love.update = function (dt)
+  GAME.scenes:update(dt, GAME)
 end
 
 love.draw = function ()

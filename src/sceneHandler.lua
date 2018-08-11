@@ -20,8 +20,8 @@ local draw = function (self, screen)
   self.scenes[#self.scenes]:draw(screen)
 end
 
-local update = function (self)
-  self.scenes[#self.scenes]:update()
+local update = function (self, dt, game)
+  self.scenes[#self.scenes]:update(dt, game)
 end
 
 return function ()

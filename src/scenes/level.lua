@@ -1,4 +1,5 @@
 local player = require('src.player')
+local levelLoader = require('src.levelLoader')
 
 local update = function (self, dt, game)
   self.phaser = self.phaser + dt
@@ -9,6 +10,7 @@ local update = function (self, dt, game)
 end
 
 local draw = function (self, screen)
+  local scale = screen.scale
   local width = screen.tall.width
   local height = screen.tall.height
   local xOffset = screen.tall.xOffset
@@ -16,21 +18,24 @@ local draw = function (self, screen)
   local phase = math.sin(math.pi * self.phaser)/3 + 0.66
   love.graphics.push()
   love.graphics.translate(xOffset, yOffset)
+  
+  -- tiles
   love.graphics.setColor(0, phase*255, phase*255, 255)
-  for i=0, width do
-    for j=0, height do
-      if i == 0 or i == width then
-        love.graphics.draw(
-          self.wall,
-          i * 8 * screen.scale,
-          j * 8 * screen.scale,
-          0,
-          screen.scale,
-          screen.scale
-        )
-      end
+  
+  for i, tile in ipairs(self.map) do
+    if tile.tile ~= 'empty' then
+      local x = tile.x
+      local y = tile.y
+      love.graphics.draw(
+        self.wall,
+        x * scale * 8,
+        y * scale * 8,
+        0,
+        scale, scale)
     end
   end
+
+  -- player
   love.graphics.setColor(255, 255, 255, 255)
   for _, ent in ipairs(self.entities) do
     ent:draw(screen)
@@ -41,6 +46,7 @@ end
 return function ()
   local level = {}
   level.phaser = 0
+  level.map = levelLoader('assets/levels/test.png')
   level.wall = love.graphics.newImage('assets/tiles/wall.png')
   level.wall:setFilter('nearest', 'nearest')
   level.entities = { player() }

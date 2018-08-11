@@ -1,4 +1,5 @@
 local player = require('src.player')
+local leftEdge = require('src.ents.leftEdge')
 local levelLoader = require('src.levelLoader')
 
 local update = function (self, dt, game)
@@ -35,7 +36,7 @@ local draw = function (self, screen)
   
   -- tiles
   love.graphics.setColor(0, phase*255, phase*255, 255)
-  
+
   for i, tile in ipairs(self.map) do
     if tile.tile ~= 'empty' then
       local x = tile.x
@@ -51,12 +52,13 @@ local draw = function (self, screen)
     end
   end
 
-  -- player
   love.graphics.setColor(255, 255, 255, 255)
   for _, ent in ipairs(self.entities) do
     ent:draw(screen)
   end
+  
   love.graphics.pop()
+
 end
 
 return function ()
@@ -68,7 +70,7 @@ return function ()
   level.wall:setFilter('nearest', 'nearest')
   level.destructable:setFilter('nearest', 'nearest')
   
-  level.entities = { player() }
+  level.entities = { player(), leftEdge() }
 
   level.update = update
   level.draw = draw

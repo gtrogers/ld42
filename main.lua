@@ -9,6 +9,7 @@ local setUpScreen = function ()
   local screenHeight = love.graphics.getHeight()
   print('Setting up window: ' .. screenWidth .. ' x ' .. screenHeight) 
   return {
+    tileSize = 32,
     scale = 4,
     tall = {
       width=16, 

@@ -8,7 +8,7 @@ return function ()
   pause.update = function ()
   end
 
-  pause.keypressed = function (key, game)
+  pause.keypressed = function (self, key, game)
     if key == 'escape' then game.scenes:pop() end
   end
 

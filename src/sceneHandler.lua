@@ -2,7 +2,7 @@ local dispatch = function (self, name, args)
   -- safeley call methods on scenes
   local method = self.scenes[#self.scenes][name]
   if method then
-    method(unpack(args))
+    method(self.scenes[#self.scenes], unpack(args))
   else
     print('Missing method call: ' .. name)
   end

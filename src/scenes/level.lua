@@ -1,7 +1,8 @@
 local player = require('src.player')
 local vertEdge = require('src.ents.vertEdge')
 local levelLoader = require('src.levelLoader')
-local gameOver = require('src.scenes.gameOver')
+local pause = require('src.scenes.pause')
+local bullets = require('src.ents.bullets')
 
 local update = function (self, dt, game)
   self.phaser = self.phaser + dt
@@ -28,6 +29,14 @@ local moveable = function (self, x, y, w)
   end
 
   return allowed
+end
+
+local keypressed = function (self, key, game)
+  if key == 'escape' then game.scenes:push(pause()) end
+  if key == 'z' then
+    local player = self.player
+    self.bulletManager:spawnBullet(player.x, player.y - 32)
+  end
 end
 
 local draw = function (self, screen)
@@ -82,11 +91,18 @@ return function ()
   level.player = player()
   level.leftEdge = vertEdge(1, -32)
   level.rightEdge = vertEdge(-1, 32*17)
-  level.entities = { level.player, level.leftEdge, level.rightEdge }
+  level.bulletManager = bullets()
+  level.entities = {
+    level.player,
+    level.leftEdge,
+    level.rightEdge,
+    level.bulletManager
+  }
 
   level.update = update
   level.draw = draw
   level.moveable = moveable
+  level.keypressed = keypressed
 
   return level
 end

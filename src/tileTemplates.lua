@@ -94,4 +94,14 @@ templates.WARP_RIGHT = template(
   false,
   nextLevel
 )
+
+templates.SWITCH = template(
+  love.graphics.newImage('assets/tiles/switch_off.png'),
+  'switch_off',
+  consumeBullet,
+  collider,
+  false,
+  nil
+)
+
 return templates

@@ -5,6 +5,7 @@ TILE_NAMES['02550255'] = tileTemplates.WALL
 TILE_NAMES['00255255'] = tileTemplates.DESTRUCTABLE
 TILE_NAMES['2552550255'] = tileTemplates.WARP_LEFT
 TILE_NAMES['0255255255'] = tileTemplates.WARP_RIGHT
+TILE_NAMES['2550255255'] = tileTemplates.SWITCH
 
 local pixelToTile = function (pixel, x, y)
   local tile = nil

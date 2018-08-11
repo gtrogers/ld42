@@ -6,6 +6,8 @@ local reify = function (self, x, y)
     onHit = self.tile.onHit,
     collides = self.tile.collides,
     sprite = self.tile.sprite,
+    onTouch = self.tile.onTouch,
+    solid = self.tile.solid,
     x = x,
     y = y
   }
@@ -13,7 +15,7 @@ local reify = function (self, x, y)
   return tile
 end
 
-local template = function (img, id, onHit, collider, solid)
+local template = function (img, id, onHit, collider, solid, onTouch)
   local template = {}
 
   if img then img:setFilter('nearest', 'nearest') end
@@ -23,7 +25,8 @@ local template = function (img, id, onHit, collider, solid)
     collides=collider,
     sprite=img,
     id=id,
-    solid=solid
+    solid=solid,
+    onTouch = onTouch,
   }
 
   template.reify = reify
@@ -42,6 +45,11 @@ local destructable = function (self)
   self.onHit = nil
   self.collides = nil
   self.sprite = nil
+  self.solid = false
+end
+
+local nextLevel = function (self, ent, scene, game)
+  scene:nextLevel(game)
 end
 
 local collider = function (self, x, y, size)
@@ -74,7 +82,8 @@ templates.WARP_LEFT = template(
   'warp',
   consumeBullet,
   collider,
-  false
+  false,
+  nextLevel
 )
 
 templates.WARP_RIGHT = template(
@@ -82,6 +91,7 @@ templates.WARP_RIGHT = template(
   'warp',
   consumeBullet,
   collider,
-  false
+  false,
+  nextLevel
 )
 return templates

@@ -1,3 +1,5 @@
+local level = require('src.scenes.level')
+
 local dispatch = function (self, name, args)
   -- safeley call methods on scenes
   local method = self.scenes[#self.scenes][name]

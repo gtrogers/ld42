@@ -61,12 +61,12 @@ local draw = function (self, screen)
     end
 end
 
-return function ()
+return function (x, y)
   local player = {}
   player.sprite = love.graphics.newImage('assets/ships/raven.png')
   player.sprite:setFilter('nearest', 'nearest')
-  player.x = 200
-  player.y = 400
+  player.x = x
+  player.y = y
   player.speed = 5
   player.exploding = false
   player.explodeTime = 0

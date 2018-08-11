@@ -10,7 +10,7 @@ end
 local update = function (self, dt, game, scene)
   if self.exploding then
     self.explodeTime = self.explodeTime + dt
-    if self.explodeTime > 2 then game.scenes:push(gameOver()) end
+    if self.explodeTime > 2 then scene:restart(game) end
     return
   end
 

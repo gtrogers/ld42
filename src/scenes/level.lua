@@ -48,6 +48,11 @@ local reload = function (self, level)
   self.done = false
 end
 
+local restart = function (self, game)
+  game.scenes:push(between(self.level.name))
+  reload(self, self.level)
+end
+
 local update = function (self, dt, game)
   self.phaser = self.phaser + dt
   if self.phaser > 1 then self.phaser = 0 end
@@ -160,6 +165,7 @@ return function ()
   level.keypressed = keypressed
   level.nextLevel = nextLevel
   level.reload = reload
+  level.restart = restart
 
   return level
 end

@@ -17,14 +17,22 @@ local update = function (self)
 end
 
 local draw = function (self, screen)
-  love.graphics.rectangle('fill', self.x, self.y, screen.scale * 8, screen.scale * 8)
+  love.graphics.draw(
+    self.sprite,
+    self.x,
+    self.y,
+    0,
+    screen.scale,
+    screen.scale)
 end
 
 return function ()
   local player = {}
+  player.sprite = love.graphics.newImage('assets/ships/raven.png')
+  player.sprite:setFilter('nearest', 'nearest')
   player.x = 10
   player.y = 10
-  player.speed = 10
+  player.speed = 5
 
   player.update = update
   player.draw = draw

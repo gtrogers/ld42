@@ -38,6 +38,30 @@ local consumeBullet = function (self)
   -- TODO play nice plink sound
 end
 
+local switch_on = love.graphics.newImage('assets/tiles/switch_on.png')
+local ding = love.audio.newSource('assets/sfx/ding.wav')
+switch_on:setFilter('nearest', 'nearest')
+
+local switch = function (self, map)
+  local sound = false
+  for _, m in ipairs(map) do
+    if m.tile == 'switch_off' then
+      sound = true
+      m.sprite = switch_on
+      m.tile = 'switch_on'
+    end
+    if m.tile == 'switchable' then
+      m.tile = 'empty'
+      m.onHit = nil
+      m.collides = nil
+      m.sprite = nil
+      m.solid = false
+    end
+  end
+
+  if sound then ding:play() end
+end
+
 local destructable = function (self)
   local explosion = love.audio.newSource('assets/sfx/small_explosion.wav')
   explosion:play()
@@ -98,9 +122,18 @@ templates.WARP_RIGHT = template(
 templates.SWITCH = template(
   love.graphics.newImage('assets/tiles/switch_off.png'),
   'switch_off',
-  consumeBullet,
+  switch,
   collider,
   false,
+  nil
+)
+
+templates.SWITCHABLE = template(
+  love.graphics.newImage('assets/tiles/switchable.png'),
+  'switchable',
+  nil,
+  collider,
+  true,
   nil
 )
 

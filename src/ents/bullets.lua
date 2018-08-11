@@ -35,7 +35,7 @@ local collisions = function (self, map)
   for i, bullet in ipairs(self.bullets) do
     for j, tile in ipairs(map) do
       if tile.onHit and tile:collides(bullet.x - 16, bullet.y - 16, 32) then
-        tile:onHit()
+        tile:onHit(map)
         table.remove(self.bullets, i)
       end
     end
@@ -45,7 +45,7 @@ end
 return function ()
   local bullets = {}
   bullets.lifetime = 3
-  bullets.speed = 200
+  bullets.speed = 350
   bullets.rechargeTime = 0.1
   bullets.cooldown = 0
   bullets.bullets = {}

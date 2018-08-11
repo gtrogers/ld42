@@ -25,6 +25,9 @@ love.load = function ()
   GAME.scenes:push(level())
 
   GAME.screen = setUpScreen()
+  local font = love.graphics.newFont('assets/PressStart2P-Regular.ttf', 16)
+  font:setFilter('nearest', 'nearest')
+  love.graphics.setFont(font)
 end
 
 love.update = function (dt)

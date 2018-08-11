@@ -6,6 +6,7 @@ local bullets = require('src.ents.bullets')
 local between = require('src.scenes.between')
 local levels = require('src.levels')
 local turretManager = require('src.ents.turretManager')
+local textBox = require('src.ents.textBox')
 
 local START_X = (16*32) / 2 - 16
 local START_Y = 650
@@ -57,6 +58,8 @@ local update = function (self, dt, game)
   self.phaser = self.phaser + dt
   if self.phaser > 1 then self.phaser = 0 end
 
+  if self.textBox then return end
+
   local playerX = self.player.x
   if playerX - 32 < self.leftEdge.x or playerX + 64 > self.rightEdge.x then
     self.player:explode()
@@ -101,6 +104,13 @@ local keypressed = function (self, key, game)
       player.y - 32 * player.direction,
       player.direction
     )
+  end
+  if key == 'c' then
+    if self.textBox then
+      self.textBox = nil
+    else
+      self.textBox = textBox('this is a text. \n boom!')
+    end
   end
 end
 
@@ -150,8 +160,9 @@ local draw = function (self, screen)
     ent:draw(screen, color, lEdge + 32, rEdge - 32)
   end
   
-  love.graphics.pop()
+  if self.textBox then self.textBox:draw(screen, color) end
 
+  love.graphics.pop()
 end
 
 return function ()
@@ -166,6 +177,7 @@ return function ()
   level.nextLevel = nextLevel
   level.reload = reload
   level.restart = restart
+  level.textBox = nil
 
   return level
 end

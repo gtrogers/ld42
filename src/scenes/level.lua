@@ -71,7 +71,7 @@ end
 local moveable = function (self, x, y, w)
   local allowed = true
   for _, tile in ipairs(self.map) do
-    if tile.solid and tile:collides(x, y, w) then
+    if tile.solid and tile:collides(x - 16, y - 16, w) then
       allowed = false
       break
     end
@@ -84,7 +84,11 @@ local keypressed = function (self, key, game)
   if key == 'escape' then game.scenes:push(pause()) end
   if key == 'z' then
     local player = self.player
-    self.bulletManager:spawnBullet(player.x, player.y - 32)
+    self.bulletManager:spawnBullet(
+      player.x,
+      player.y - 32 * player.direction,
+      player.direction
+    )
   end
 end
 

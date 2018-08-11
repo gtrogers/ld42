@@ -1,7 +1,7 @@
-local spawnBullet = function (self, x, y)
+local spawnBullet = function (self, x, y, d)
   if self.cooldown ~= 0 then return end
   self.sound:play()
-  table.insert(self.bullets, {x=x, y=y, t=0})
+  table.insert(self.bullets, {x=x, y=y, d=d, t=0})
   self.cooldown = self.rechargeTime
 end
 
@@ -11,7 +11,7 @@ local update = function (self, dt, game)
     if self.cooldown < 0 then self.cooldown = 0 end
   end
   for i, b in ipairs(self.bullets) do
-    b.y = b.y - dt*self.speed
+    b.y = b.y - dt*self.speed*b.d
     b.t = b.t + dt
     if b.t > self.lifetime then
       table.remove(self.bullets, i)
@@ -21,14 +21,20 @@ end
 
 local draw = function (self, screen)
   for i, b in ipairs(self.bullets) do
-    love.graphics.draw(self.bullet, b.x, b.y, 0, screen.scale, screen.scale)
+    love.graphics.draw(
+      self.bullet,
+      b.x,
+      b.y,
+      0,
+      screen.scale, screen.scale,
+      4, 4)
   end
 end
 
 local collisions = function (self, map)
   for i, bullet in ipairs(self.bullets) do
     for j, tile in ipairs(map) do
-      if tile.onHit and tile:collides(bullet.x, bullet.y, 32) then
+      if tile.onHit and tile:collides(bullet.x - 16, bullet.y - 16, 32) then
         tile:onHit()
         table.remove(self.bullets, i)
       end

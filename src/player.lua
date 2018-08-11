@@ -24,6 +24,14 @@ local update = function (self, dt, game, scene)
 
   local mag2 = dx * dx + dy * dy
   
+  if dy > 0 and self.direction > 0 then
+    self.direction = -1
+  end
+
+  if dy < 0 and self.direction < 0 then
+    self.direction = 1
+  end
+
   if mag2 > 0 then
     local mag = math.sqrt(mag2)
     local unitX = dx/mag
@@ -53,7 +61,8 @@ local draw = function (self, screen)
     self.y,
     0,
     screen.scale,
-    screen.scale)
+    screen.scale * self.direction,
+    4, 4)
 
     if self.exploding then
       local r = 1 + (self.explodeTime / 2)*32
@@ -70,6 +79,7 @@ return function (x, y)
   player.speed = 5
   player.exploding = false
   player.explodeTime = 0
+  player.direction = 1
 
   player.update = update
   player.draw = draw

@@ -4,9 +4,23 @@ local levelLoader = require('src.levelLoader')
 local update = function (self, dt, game)
   self.phaser = self.phaser + dt
   if self.phaser > 1 then self.phaser = 0 end
+
   for _, ent in ipairs(self.entities) do
-    ent:update(dt, game)
+    ent:update(dt, game, self)
   end
+end
+
+local moveable = function (self, x, y, w)
+  local allowed = true
+  for _, tile in ipairs(self.map) do
+    if tile.collides and tile:collides(x, y, w) then
+      print('collision')
+      allowed = false
+      break
+    end
+  end
+
+  return allowed
 end
 
 local draw = function (self, screen)
@@ -53,6 +67,7 @@ return function ()
 
   level.update = update
   level.draw = draw
+  level.moveable = moveable
 
   return level
 end

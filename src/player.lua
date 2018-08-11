@@ -1,4 +1,4 @@
-local update = function (self)
+local update = function (self, dt, game, scene)
   local dx = 0
   local dy = 0
   
@@ -10,9 +10,15 @@ local update = function (self)
   local mag2 = dx * dx + dy * dy
   
   if mag2 > 0 then
+    -- TODO - subpixel movement
     local mag = math.sqrt(mag2)
-    self.x = self.x + (dx/mag) * self.speed
-    self.y = self.y + (dy/mag) * self.speed
+    local newX = self.x + (dx/mag) * self.speed
+    local newY = self.y + (dy/mag) * self.speed
+
+    if scene:moveable(newX, newY, 32) then
+      self.x = newX
+      self.y = newY
+    end
   end
 end
 
@@ -30,8 +36,8 @@ return function ()
   local player = {}
   player.sprite = love.graphics.newImage('assets/ships/raven.png')
   player.sprite:setFilter('nearest', 'nearest')
-  player.x = 10
-  player.y = 10
+  player.x = 200
+  player.y = 400
   player.speed = 5
 
   player.update = update

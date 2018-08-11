@@ -40,8 +40,10 @@ local draw = function (self, screen)
     if tile.tile ~= 'empty' then
       local x = tile.x
       local y = tile.y
+      local sprite = self.wall
+      if tile.tile == 'destructable' then sprite = self.destructable end
       love.graphics.draw(
-        self.wall,
+        sprite,
         x * scale * 8,
         y * scale * 8,
         0,
@@ -62,7 +64,10 @@ return function ()
   level.phaser = 0
   level.map = levelLoader('assets/levels/test.png')
   level.wall = love.graphics.newImage('assets/tiles/wall.png')
+  level.destructable = love.graphics.newImage('assets/tiles/destructable.png')
   level.wall:setFilter('nearest', 'nearest')
+  level.destructable:setFilter('nearest', 'nearest')
+  
   level.entities = { player() }
 
   level.update = update

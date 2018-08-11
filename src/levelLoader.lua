@@ -1,5 +1,6 @@
 local TILE_NAMES = {}
 TILE_NAMES['02550255'] = 'wall'
+TILE_NAMES['00255255'] = 'destructable'
 
 local collides = function (self, x, y, size)
   -- TODO move tile into a class

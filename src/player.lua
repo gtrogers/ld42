@@ -15,6 +15,7 @@ local update = function (self, dt, game, scene)
     local unitY = dy/mag
     local moved = 0
     local blocked = false
+
     while moved < self.speed and not blocked do
       local newX = self.x + unitX
       local newY = self.y + unitY

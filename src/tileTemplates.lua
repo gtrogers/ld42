@@ -133,7 +133,7 @@ templates.SWITCH = template(
 templates.SWITCHABLE = template(
   love.graphics.newImage('assets/tiles/switchable.png'),
   'switchable',
-  nil,
+  consumeBullet,
   collider,
   true,
   nil

@@ -46,6 +46,10 @@ local reload = function (self, level)
     self.turretManager
   }
 
+  if level.openComm then
+    self.textBox = textBox(level.commMessage)
+  end
+
   self.done = false
 end
 
@@ -109,7 +113,9 @@ local keypressed = function (self, key, game)
     if self.textBox then
       self.textBox = nil
     else
-      self.textBox = textBox('this is a text. \n boom!')
+      if self.level.commMessage then
+        self.textBox = textBox(self.level.commMessage)
+      end
     end
   end
 end
@@ -161,12 +167,17 @@ local draw = function (self, screen)
   end
   
   if self.textBox then self.textBox:draw(screen, color) end
+  if self.level.commMessage and not self.textBox then
+    love.graphics.printf('Incoming message\npress [c]', 0, 650, 16*32, 'center')
+  end
 
   love.graphics.pop()
 end
 
 return function ()
   local level = {}
+
+  level.textBox = nil
 
   reload(level)
 
@@ -177,7 +188,6 @@ return function ()
   level.nextLevel = nextLevel
   level.reload = reload
   level.restart = restart
-  level.textBox = nil
 
   return level
 end

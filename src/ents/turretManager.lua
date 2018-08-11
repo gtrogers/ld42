@@ -41,17 +41,19 @@ local collisions = function (self, player)
   end
 end
 
-local draw = function (self, screen, color)
+local draw = function (self, screen, color, lEdge, rEdge)
   local scale = screen.scale
   love.graphics.setColor(color)
   for _, b in ipairs(self.bullets) do
-    love.graphics.draw(
-      self.sprite,
-      b.x,
-      b.y,
-      0,
-      scale, scale,
-      4, 4)
+    if b.x > lEdge and b.x < rEdge then
+      love.graphics.draw(
+        self.sprite,
+        b.x,
+        b.y,
+        0,
+        scale, scale,
+        4, 4)
+    end
   end
   love.graphics.setColor(255, 255, 255, 255)
 end
@@ -62,10 +64,10 @@ return function ()
   ent.bullets = {}
   ent.sprite = love.graphics.newImage('assets/turretBullet.png')
   ent.sprite:setFilter('nearest', 'nearest')
-  ent.lifetime = 3
-  ent.speed = 50
+  ent.lifetime = 6
+  ent.speed = 70
   ent.cooldowns = {}
-  ent.rechargeTime = 3
+  ent.rechargeTime = 2
 
   ent.draw = draw
   ent.update = update

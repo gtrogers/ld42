@@ -142,7 +142,7 @@ local draw = function (self, screen)
   love.graphics.setColor(255, 255, 255, 255)
 
   for _, ent in ipairs(self.entities) do
-    ent:draw(screen, color)
+    ent:draw(screen, color, lEdge + 32, rEdge - 32)
   end
   
   love.graphics.pop()

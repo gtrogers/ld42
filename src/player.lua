@@ -1,4 +1,19 @@
+local gameOver = require('src.scenes.gameOver')
+
+local explode = function (self, screen)
+  if self.exploding then return end
+  local explode = love.audio.newSource('assets/sfx/explosion.wav')
+  explode:play()
+  self.exploding = true
+end
+
 local update = function (self, dt, game, scene)
+  if self.exploding then
+    self.explodeTime = self.explodeTime + dt
+    if self.explodeTime > 2 then game.scenes:push(gameOver()) end
+    return
+  end
+
   local dx = 0
   local dy = 0
   
@@ -39,6 +54,11 @@ local draw = function (self, screen)
     0,
     screen.scale,
     screen.scale)
+
+    if self.exploding then
+      local r = 1 + (self.explodeTime / 2)*32
+      love.graphics.circle('fill', self.x + 16, self.y + 16, r)
+    end
 end
 
 return function ()
@@ -48,10 +68,13 @@ return function ()
   player.x = 200
   player.y = 400
   player.speed = 5
+  player.exploding = false
+  player.explodeTime = 0
 
   player.update = update
   player.draw = draw
   player.keypressed = keypressed
+  player.explode = explode
 
   return player
 end

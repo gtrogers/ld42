@@ -1,6 +1,7 @@
 local player = require('src.player')
 local vertEdge = require('src.ents.vertEdge')
 local levelLoader = require('src.levelLoader')
+local gameOver = require('src.scenes.gameOver')
 
 local update = function (self, dt, game)
   self.phaser = self.phaser + dt
@@ -8,6 +9,11 @@ local update = function (self, dt, game)
 
   for _, ent in ipairs(self.entities) do
     ent:update(dt, game, self)
+  end
+
+  local playerX = self.player.x
+  if playerX - 32 < self.leftEdge.x or playerX + 64 > self.rightEdge.x then
+    self.player:explode()
   end
 end
 
@@ -73,9 +79,10 @@ return function ()
   level.wall:setFilter('nearest', 'nearest')
   level.destructable:setFilter('nearest', 'nearest')
   
+  level.player = player()
   level.leftEdge = vertEdge(1, -32)
   level.rightEdge = vertEdge(-1, 32*17)
-  level.entities = { player(), level.leftEdge, level.rightEdge }
+  level.entities = { level.player, level.leftEdge, level.rightEdge }
 
   level.update = update
   level.draw = draw

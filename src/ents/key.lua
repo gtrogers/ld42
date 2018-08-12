@@ -29,7 +29,7 @@ return function (x, y)
   ent.homeY = y
   ent.tractorable = true
   ent.tractored = false
-  ent.fallSpeed = 10
+  ent.fallSpeed = 15
   ent.done = false
 
   ent.draw = draw

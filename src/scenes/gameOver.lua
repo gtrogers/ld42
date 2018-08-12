@@ -1,7 +1,7 @@
 return function ()
   local scene = {}
 
-  scene.draw = function (screen)
+  scene.draw = function (self)
     love.graphics.print('Game Over!')
   end
 

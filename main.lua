@@ -1,5 +1,5 @@
 local sceneHandler = require('src.sceneHandler')
-local level = require('src.scenes.level')
+local title = require('src.scenes.title')
 
 local GAME = {}
 
@@ -22,7 +22,7 @@ end
 
 love.load = function ()
   GAME.scenes = sceneHandler()
-  GAME.scenes:push(level())
+  GAME.scenes:push(title())
 
   GAME.screen = setUpScreen()
   local font = love.graphics.newFont('assets/PressStart2P-Regular.ttf', 16)

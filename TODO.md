@@ -8,11 +8,7 @@
 
 ## Nice to have
 
-- Play sound when comm is available
-- Play sound on opening / closing comm
 - Rotate or tile ships as they move
-- Better graphics for explosion
-- Better graphics for tractor beam
 
 ## Features
 

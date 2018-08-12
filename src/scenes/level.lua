@@ -57,6 +57,10 @@ local reload = function (self, level, prevPlayer)
     table.insert(self.entities, ent)
   end
 
+  if level.commMessage then
+    self.commAvailable:play()
+  end
+
   if level.openComm then
     self.textBox = textBox(level.commMessage)
   end
@@ -134,9 +138,11 @@ local keypressed = function (self, key, game)
   end
   if key == 'c' then
     if self.textBox then
+      self.commSound:play()
       self.textBox = nil
     else
       if self.level.commMessage then
+        self.commSound:play()
         self.textBox = textBox(self.level.commMessage)
       end
     end
@@ -204,6 +210,8 @@ return function ()
   local level = {}
 
   level.textBox = nil
+  level.commSound = love.audio.newSource('assets/sfx/open_comm.wav')
+  level.commAvailable = love.audio.newSource('assets/sfx/message.wav')
 
   reload(level)
 

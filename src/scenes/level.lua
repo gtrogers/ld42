@@ -84,8 +84,12 @@ local update = function (self, dt, game)
 
   local player = self.player
   for _, tile in ipairs(self.map) do
-    if tile.onTouch and tile:collides(player.x, player.y, 32) then
-      tile:onTouch(ent, self, game)
+    for _, ent in ipairs(self.entities) do
+      if tile.onTouch and ent.is and tile:collides(ent.x, ent.y, 32) then
+        -- HACK assuming ents must have an is field
+        -- to collide with a tile
+        tile:onTouch(ent, self, game)
+      end
     end
     if tile.onTick then
       tile:onTick(dt, self)

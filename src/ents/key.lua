@@ -1,4 +1,5 @@
 local draw = function (self, screen, color)
+  if self.done then return end
   love.graphics.setColor(color)
   love.graphics.draw(
     self.sprite, self.x, self.y, 0,
@@ -11,6 +12,7 @@ local _home = function (self)
 end
 
 local update = function (self, dt, game, scene)
+  if self.done then return end
   if not self.tractored and not _home(self) then
     self.y = self.y + dt * self.fallSpeed
   end
@@ -18,6 +20,7 @@ end
 
 return function (x, y)
   local ent = {}
+  ent.is = 'key'
   ent.sprite = love.graphics.newImage('assets/ents/friend.png')
   ent.sprite:setFilter('nearest', 'nearest')
   ent.x = x
@@ -27,6 +30,7 @@ return function (x, y)
   ent.tractorable = true
   ent.tractored = false
   ent.fallSpeed = 10
+  ent.done = false
 
   ent.draw = draw
   ent.update = update

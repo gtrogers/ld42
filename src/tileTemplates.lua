@@ -75,7 +75,7 @@ local destructable = function (self)
 end
 
 local nextLevel = function (self, ent, scene, game)
-  scene:nextLevel(game)
+  if ent.is == 'player' then scene:nextLevel(game) end
 end
 
 local collider = function (self, x, y, size)
@@ -93,11 +93,36 @@ local collider = function (self, x, y, size)
     (entTop < tileBottom) and (entBottom > tileTop)
 end
 
+local activated = love.graphics.newImage('assets/tiles/receptor_on.png')
+activated:setFilter('nearest', 'nearest')
+local receptor = function (self, ent, scene, game)
+  if ent.is == 'key' then
+    ent.done = true
+    self.sprite = activated
+    for _, m in ipairs(scene.map) do
+      if m.tile == 'keyable' then
+        m.tile = 'empty'
+        m.onHit = nil
+        m.collides = nil
+        m.sprite = nil
+        m.solid = false
+      end
+    end
+  end
+end
+
 templates.EMPTY = template(nil, 'empty')
 templates.DECOR = template(
   love.graphics.newImage('assets/tiles/decor.png'), 'empty')
 
-templates.RECEPTOR_HINT = template(nil, 'receptorHint')
+templates.RECEPTOR = template(
+  love.graphics.newImage('assets/tiles/receptor.png'),
+  'receptor',
+  consumeBullet,
+  collider,
+  false,
+  receptor)
+
 templates.KEY_HINT = template(nil, 'keyHint')
 
 templates.WALL = template(
@@ -146,7 +171,7 @@ templates.SWITCHABLE = template(
 
 templates.KEYABLE = template(
   love.graphics.newImage('assets/tiles/switchable.png'),
-  'switchable',
+  'keyable',
   consumeBullet,
   collider,
   true,

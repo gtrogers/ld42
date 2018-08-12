@@ -11,7 +11,7 @@ TILE_NAMES['255200255255'] = tileTemplates.SWITCHABLE
 TILE_NAMES['25500255'] = tileTemplates.TURRET
 TILE_NAMES['128128128255'] = tileTemplates.DECOR
 TILE_NAMES['0128255255'] = tileTemplates.KEY_HINT
-TILE_NAMES['0255128255'] = tileTemplates.RECEPTOR_HINT
+TILE_NAMES['0255128255'] = tileTemplates.RECEPTOR
 TILE_NAMES['128255255255'] = tileTemplates.KEYABLE
 
 local pixelToTile = function (pixel, x, y)

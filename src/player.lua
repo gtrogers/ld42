@@ -87,6 +87,7 @@ return function (x, y)
   spriteRaven:setFilter('nearest', 'nearest')
   
   player.sprites = {eagle=spriteEagle, raven=spriteRaven}
+  player.is = 'player'
   player.ship = 'eagle'
   player.x = x
   player.y = y

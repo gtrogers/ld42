@@ -17,13 +17,8 @@
 ## Features
 
 - SFX pass: e.g. warp sounds, more sounds
-- Music
-- Cutscenes
 - Better intro, game over and pause screens
 - Save game
-- Enemy ships
-  - Regular
-  - Bosses
 
 ## Content
 

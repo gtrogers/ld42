@@ -18,7 +18,7 @@ local RED    = {236, 51, 100}
 
 -- Intro levels
 levels[1] = level(
-  'assets/levels/level_8.png', 1, 'Entrance', CYAN, 2,
+  'assets/levels/level_1.png', 1, 'Entrance', CYAN, 2,
   'Use the arrow keys to move.', true)
 levels[2] = level('assets/levels/level_2.png', 1, 'Corridor', CYAN, 3)
 levels[3] = level(

@@ -20,11 +20,17 @@ local nextLevel = function (self, game)
   self.player.y = START_Y
   
   local next = levels[self.level.next]
+  local nextLevelIndex = self.level.next
   game.scenes:push(between(next.name))
-  self:reload(next, self.player)
+  self:reload(next, self.player, nextLevelIndex)
 end
 
-local reload = function (self, level, prevPlayer)
+local _saveProgress = function (levelIndex)
+  local saveTemplate = 'return ' .. levelIndex
+  love.filesystem.write('trispace.sav', saveTemplate)
+end
+
+local reload = function (self, level, prevPlayer, levelIndex)
   self.phaser = 0
 
   if level == nil then level = levels[1] end
@@ -65,7 +71,7 @@ local reload = function (self, level, prevPlayer)
     self.textBox = textBox(level.commMessage)
   end
 
-  self.done = false
+  if levelIndex then _saveProgress(levelIndex) end
 end
 
 local restart = function (self, game)
@@ -206,14 +212,18 @@ local draw = function (self, screen)
   love.graphics.pop()
 end
 
-return function ()
+return function (levelIndex)
   local level = {}
 
   level.textBox = nil
   level.commSound = love.audio.newSource('assets/sfx/open_comm.wav')
   level.commAvailable = love.audio.newSource('assets/sfx/message.wav')
 
-  reload(level)
+  if not levelIndex then
+    reload(level)
+  else
+    reload(level, levels[levelIndex])
+  end
 
   level.update = update
   level.draw = draw

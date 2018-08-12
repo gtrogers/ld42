@@ -14,6 +14,7 @@
 
 - SFX pass: e.g. warp sounds, more sounds
 - Better intro, game over and pause screens
+    [partial]
 - Save game
 
 ## Content

@@ -1,5 +1,11 @@
 local level = require('src.scenes.level')
 
+local _loadProgress = function (game)
+  local chunk = love.filesystem.load('trispace.sav')
+  local levelIndex = chunk()
+  game.scenes:push(level(levelIndex))
+end
+
 local draw = function (self, screen)
   local c1 = math.sin(math.pi * self.phaser) * 0.3 + 0.66
   local c2 = math.sin(math.pi * self.phaser * 2) * 0.3 + 0.66
@@ -8,8 +14,7 @@ local draw = function (self, screen)
 
   love.graphics.push()
   love.graphics.translate(screen.tall.xOffset, screen.tall.yOffset)
-  love.graphics.printf(
-    'TriSpace\n\n  [z] start\n[esc] exit', 0, 300, 16 * 32)
+  love.graphics.printf(self.text, 0, 300, 16 * 32)
   
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.pop()
@@ -21,14 +26,24 @@ local update = function (self, dt)
 end
 
 local keypressed = function (self, key, game)
-  if key == 'z' then
-    game.scenes:push(level())
-  end
+  if key == 'c' then game.scenes:push(level()) end
+  if key == 'escape' then love.event.push('quit') end
+  if key == 'z' and self.saveData then _loadProgress(game) end
 end
 
 return function ()
   local scene = {}
+  local continue = ''
 
+  scene.saveData = love.filesystem.isFile('trispace.sav')
+  if scene.saveData then
+    continue = '  [z] Continue\n'
+  end
+
+  scene.text = 
+    'TriSpace\n\n'
+    .. continue
+    .. '  [c] New Game\n[esc] Quit'
   scene.phaser = 0
   scene.update = update
   scene.draw = draw

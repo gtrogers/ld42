@@ -13,6 +13,7 @@ TILE_NAMES['128128128255'] = tileTemplates.DECOR
 TILE_NAMES['0128255255'] = tileTemplates.KEY_HINT
 TILE_NAMES['0255128255'] = tileTemplates.RECEPTOR
 TILE_NAMES['128255255255'] = tileTemplates.KEYABLE
+TILE_NAMES['12800255'] = tileTemplates.ZAP
 
 local pixelToTile = function (pixel, x, y)
   local tile = nil

@@ -16,7 +16,15 @@ local reify = function (self, x, y)
   return tile
 end
 
-local template = function (img, id, onHit, collider, solid, onTouch, onTick)
+local template = function (
+  img,
+  id,
+  onHit,
+  collider,
+  solid,
+  onTouch,
+  onTick)
+  
   local template = {}
 
   if img then img:setFilter('nearest', 'nearest') end
@@ -91,6 +99,21 @@ local collider = function (self, x, y, size)
 
   return (entLeft < tileRight) and (entRight > tileLeft) and 
     (entTop < tileBottom) and (entBottom > tileTop)
+end
+
+local zapCollider = function (self, x, y, size)
+  local tileTop = self.y * size + 4
+  local tileBottom = (self.y + 1 ) * size - 4
+  local tileLeft = self.x * size
+  local tileRight = (self.x + 1) * size
+
+  local entTop = y - 16
+  local entBottom = y + size - 16
+  local entLeft = x
+  local entRight = x + size
+
+  return (entLeft < tileRight) and (entRight > tileLeft)
+    and (entTop < tileBottom) and (entBottom > tileTop)
 end
 
 local activated = love.graphics.newImage('assets/tiles/receptor_on.png')
@@ -190,6 +213,23 @@ templates.TURRET = template(
   true,
   nil,
   shoot
+)
+
+local zapSound = love.audio.newSource('assets/sfx/big_laser.wav')
+local zap = function (self, ent, scene, game)
+  if ent.is == 'player' then
+    zapSound:play()
+    --ent:explode()
+  end
+end
+
+templates.ZAP = template(
+  love.graphics.newImage('assets/tiles/zap.png'),
+  'zap',
+  nil,
+  zapCollider,
+  false,
+  zap
 )
 
 return templates

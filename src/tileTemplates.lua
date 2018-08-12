@@ -94,6 +94,11 @@ local collider = function (self, x, y, size)
 end
 
 templates.EMPTY = template(nil, 'empty')
+templates.DECOR = template(
+  love.graphics.newImage('assets/tiles/decor.png'), 'empty')
+
+templates.RECEPTOR_HINT = template(nil, 'receptorHint')
+templates.KEY_HINT = template(nil, 'keyHint')
 
 templates.WALL = template(
   love.graphics.newImage('assets/tiles/wall.png'),
@@ -131,6 +136,15 @@ templates.SWITCH = template(
 )
 
 templates.SWITCHABLE = template(
+  love.graphics.newImage('assets/tiles/switchable.png'),
+  'switchable',
+  consumeBullet,
+  collider,
+  true,
+  nil
+)
+
+templates.KEYABLE = template(
   love.graphics.newImage('assets/tiles/switchable.png'),
   'switchable',
   consumeBullet,

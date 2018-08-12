@@ -7,6 +7,7 @@ local between = require('src.scenes.between')
 local levels = require('src.levels')
 local turretManager = require('src.ents.turretManager')
 local textBox = require('src.ents.textBox')
+local tractorBeam = require('src.ents.tractorBeam')
 
 local START_X = (16*32) / 2 - 16
 local START_Y = 650
@@ -20,31 +21,39 @@ local nextLevel = function (self, game)
   
   local next = levels[self.level.next]
   game.scenes:push(between(next.name))
-  self:reload(next)
+  self:reload(next, self.player)
 end
 
-local reload = function (self, level)
+local reload = function (self, level, prevPlayer)
   self.phaser = 0
 
   if level == nil then level = levels[1] end
 
   self.level = level
 
-  self.map = levelLoader(level.path)
+  local levelData = levelLoader(level.path)
+  self.map = levelData.map
   
   self.color = level.color
   self.player = player(START_X, START_Y)
+  if prevPlayer then self.player.ship = prevPlayer.ship end
   self.leftEdge = vertEdge(1, -32, level.difficulty * 10)
   self.rightEdge = vertEdge(-1, 32*17, level.difficulty * 10)
   self.bulletManager = bullets()
   self.turretManager = turretManager()
+  self.tractorBeam = tractorBeam()
   self.entities = {
     self.player,
     self.leftEdge,
     self.rightEdge,
     self.bulletManager,
-    self.turretManager
+    self.turretManager,
+    self.tractorBeam
   }
+
+  for _, ent in ipairs(levelData.ents) do
+    table.insert(self.entities, ent)
+  end
 
   if level.openComm then
     self.textBox = textBox(level.commMessage)
@@ -55,7 +64,7 @@ end
 
 local restart = function (self, game)
   game.scenes:push(between(self.level.name))
-  reload(self, self.level)
+  reload(self, self.level, self.player)
 end
 
 local update = function (self, dt, game)
@@ -101,7 +110,8 @@ end
 
 local keypressed = function (self, key, game)
   if key == 'escape' then game.scenes:push(pause()) end
-  if key == 'z' then
+  -- FIXME coupling of player and level
+  if key == 'z' and self.player.ship == 'raven' then
     local player = self.player
     self.bulletManager:spawnBullet(
       player.x,
@@ -117,6 +127,9 @@ local keypressed = function (self, key, game)
         self.textBox = textBox(self.level.commMessage)
       end
     end
+  end
+  if key == 'x' then
+    self.player:switchShip()
   end
 end
 
@@ -148,7 +161,7 @@ local draw = function (self, screen)
   local rEdge = self.rightEdge.x
 
   for i, tile in ipairs(self.map) do
-    if tile.tile ~= 'empty' and tile.x*32 > lEdge and (tile.x + 1)*32 < rEdge then
+    if tile.sprite and tile.x*32 > lEdge and (tile.x + 1)*32 < rEdge then
       local x = tile.x
       local y = tile.y
       love.graphics.draw(

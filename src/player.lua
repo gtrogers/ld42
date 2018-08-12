@@ -56,7 +56,7 @@ end
 
 local draw = function (self, screen)
   love.graphics.draw(
-    self.sprite,
+    self.sprites[self.ship],
     self.x,
     self.y,
     0,
@@ -70,10 +70,24 @@ local draw = function (self, screen)
     end
 end
 
+local switchShip = function (self)
+  if self.ship == 'raven' then
+    self.ship = 'eagle'
+  else
+    self.ship = 'raven'
+  end
+end
+
 return function (x, y)
   local player = {}
-  player.sprite = love.graphics.newImage('assets/ships/raven.png')
-  player.sprite:setFilter('nearest', 'nearest')
+  
+  local spriteEagle = love.graphics.newImage('assets/ships/eagle.png')
+  local spriteRaven = love.graphics.newImage('assets/ships/raven.png')
+  spriteEagle:setFilter('nearest', 'nearest')
+  spriteRaven:setFilter('nearest', 'nearest')
+  
+  player.sprites = {eagle=spriteEagle, raven=spriteRaven}
+  player.ship = 'eagle'
   player.x = x
   player.y = y
   player.speed = 5
@@ -85,6 +99,7 @@ return function (x, y)
   player.draw = draw
   player.keypressed = keypressed
   player.explode = explode
+  player.switchShip = switchShip
 
   return player
 end

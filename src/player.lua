@@ -7,6 +7,19 @@ local explode = function (self, screen)
   self.exploding = true
 end
 
+local dash = function (self, scene)
+  local step = 16
+  local canDash = true
+  for dy = 0, self.dashDistance, step do
+    canDash = scene:moveable(self.x, self.y - dy * self.direction, 32)
+    if canDash == false then break end
+  end
+
+  if canDash then
+    self.y = self.y - self.dashDistance * self.direction
+  end
+end
+
 local update = function (self, dt, game, scene)
   if self.exploding then
     self.explodeTime = self.explodeTime + dt
@@ -71,11 +84,9 @@ local draw = function (self, screen)
 end
 
 local switchShip = function (self)
-  if self.ship == 'raven' then
-    self.ship = 'eagle'
-  else
-    self.ship = 'raven'
-  end
+  self.shipIndex = self.shipIndex + 1
+  if self.shipIndex > #self.ships then self.shipIndex = 1 end
+  self.ship = self.ships[self.shipIndex]
 end
 
 return function (x, y)
@@ -83,10 +94,14 @@ return function (x, y)
   
   local spriteEagle = love.graphics.newImage('assets/ships/eagle.png')
   local spriteRaven = love.graphics.newImage('assets/ships/raven.png')
+  local spriteGull = love.graphics.newImage('assets/ships/gull.png')
   spriteEagle:setFilter('nearest', 'nearest')
   spriteRaven:setFilter('nearest', 'nearest')
+  spriteGull:setFilter('nearest', 'nearest')
   
-  player.sprites = {eagle=spriteEagle, raven=spriteRaven}
+  player.shipIndex = 1
+  player.ships = {'eagle', 'raven', 'gull'}
+  player.sprites = {eagle=spriteEagle, raven=spriteRaven, gull=spriteGull}
   player.is = 'player'
   player.ship = 'eagle'
   player.x = x
@@ -95,12 +110,14 @@ return function (x, y)
   player.exploding = false
   player.explodeTime = 0
   player.direction = 1
+  player.dashDistance = 124
 
   player.update = update
   player.draw = draw
   player.keypressed = keypressed
   player.explode = explode
   player.switchShip = switchShip
+  player.dash = dash
 
   return player
 end

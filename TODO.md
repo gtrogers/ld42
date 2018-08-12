@@ -4,6 +4,7 @@
 - Deal with x and y player movement seperately = no sticky walls
 - Tighten up turret bullet collisions
 - Prevent firing when comm is open
+- Hide key when beyond the void
 
 ## Nice to have
 
@@ -17,11 +18,10 @@
 
 - Music
 - Change ship / multiple ships
-  [ ] tractor beam ship
+  [x] tractor beam ship
   [x] shooting ship
-  [ ] shield / warp ship
+  [ ] side shooting ship
 - Horizontal levels
-- Text boxes
 - Enemy ships
   - Regular
   - Bosses

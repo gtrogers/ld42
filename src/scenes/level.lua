@@ -115,13 +115,18 @@ end
 local keypressed = function (self, key, game)
   if key == 'escape' then game.scenes:push(pause()) end
   -- FIXME coupling of player and level
-  if key == 'z' and self.player.ship == 'raven' then
-    local player = self.player
-    self.bulletManager:spawnBullet(
-      player.x,
-      player.y - 32 * player.direction,
-      player.direction
-    )
+  if key == 'z' then
+    if self.player.ship == 'raven' then
+      local player = self.player
+      self.bulletManager:spawnBullet(
+        player.x,
+        player.y - 32 * player.direction,
+        player.direction
+      )
+    end
+    if self.player.ship == 'gull' then
+      self.player:dash(self)
+    end
   end
   if key == 'c' then
     if self.textBox then

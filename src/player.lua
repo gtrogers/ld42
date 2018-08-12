@@ -7,6 +7,12 @@ local explode = function (self, screen)
   self.exploding = true
 end
 
+local getPowerName = function (self)
+  if self.ship == 'eagle' then return 'Tractor Beam' end
+  if self.ship == 'raven' then return 'Laser Cannon' end
+  if self.ship == 'gull' then return 'Space Fold' end
+end
+
 local dash = function (self, scene)
   local step = 16
   local canDash = true
@@ -130,6 +136,7 @@ return function (x, y)
   player.explode = explode
   player.switchShip = switchShip
   player.dash = dash
+  player.getPowerName = getPowerName
 
   return player
 end

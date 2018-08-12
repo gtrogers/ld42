@@ -206,8 +206,11 @@ local draw = function (self, screen)
   
   if self.textBox then self.textBox:draw(screen, color) end
   if self.level.commMessage and not self.textBox then
-    love.graphics.printf('Incoming message\npress [c]', 0, 650, 16*32, 'center')
+    love.graphics.printf('Incoming message\npress [c]', -200, 650, 200, 'right')
   end
+  love.graphics.printf(
+    'Power:\n' .. self.player:getPowerName(),
+    16*32, 650, 200, 'left')
 
   love.graphics.pop()
 end

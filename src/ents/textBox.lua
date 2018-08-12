@@ -1,5 +1,4 @@
 local draw = function (self, screen, color)
-  love.graphics.setColor(color)
   love.graphics.draw(
     self.sprite,
     self.x,
@@ -17,7 +16,6 @@ local draw = function (self, screen, color)
     self.y + 32,
     w * screen.scale - 64,
     'left')
-  love.graphics.setColor(255, 255, 255, 255)
 
   love.graphics.printf(
     '[c] to close',

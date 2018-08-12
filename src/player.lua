@@ -23,7 +23,7 @@ end
 local update = function (self, dt, game, scene)
   if self.exploding then
     self.explodeTime = self.explodeTime + dt
-    if self.explodeTime > 2 then scene:restart(game) end
+    if self.explodeTime > self.explosionLength then scene:restart(game) end
     return
   end
 
@@ -67,31 +67,28 @@ local update = function (self, dt, game, scene)
   end
 end
 
-local draw = function (self, screen)
-  love.graphics.draw(
-    self.sprites[self.ship],
-    self.x,
-    self.y,
-    0,
-    screen.scale,
-    screen.scale * self.direction,
-    4, 4)
+local draw = function (self, screen, color, lEdge, rEdge, phase)
+  if not self.exploding or (self.exploding and phase > 0.5) then
+    love.graphics.draw(
+      self.sprites[self.ship],
+      self.x,
+      self.y,
+      0,
+      screen.scale,
+      screen.scale * self.direction,
+      4, 4)
+  end
 
-    if self.exploding then
-      local r = 1 + (self.explodeTime / 2)*32
-      love.graphics.circle('fill', self.x + 16, self.y + 16, r)
-    end
-
-    if self.ship == 'gull' and not self.exploding then
-      love.graphics.draw(
-        self.gullTarget,
-        self.x,
-        self.y - self.dashDistance * self.direction,
-        0,
-        screen.scale,
-        screen.scale,
-        4, 4)
-    end
+  if self.ship == 'gull' and not self.exploding then
+    love.graphics.draw(
+      self.gullTarget,
+      self.x,
+      self.y - self.dashDistance * self.direction,
+      0,
+      screen.scale,
+      screen.scale,
+      4, 4)
+  end
 end
 
 local switchShip = function (self)
@@ -123,6 +120,7 @@ return function (x, y)
   player.speed = 5
   player.exploding = false
   player.explodeTime = 0
+  player.explosionLength = 3
   player.direction = 1
   player.dashDistance = 124
 

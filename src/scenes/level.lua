@@ -76,7 +76,9 @@ local update = function (self, dt, game)
   if self.textBox then return end
 
   local playerX = self.player.x
-  if playerX - 32 < self.leftEdge.x or playerX + 64 > self.rightEdge.x then
+  local edgeCollisionGrace = 15
+  if playerX < self.leftEdge.x + 32 + edgeCollisionGrace
+    or playerX > self.rightEdge.x - 32 - edgeCollisionGrace then
     self.player:explode()
   end
 
@@ -187,7 +189,7 @@ local draw = function (self, screen)
   love.graphics.setColor(255, 255, 255, 255)
 
   for _, ent in ipairs(self.entities) do
-    ent:draw(screen, color, lEdge + 32, rEdge - 32)
+    ent:draw(screen, color, lEdge + 32, rEdge - 32, self.phaser)
   end
   
   if self.textBox then self.textBox:draw(screen, color) end

@@ -16,18 +16,35 @@
 
 ## Features
 
+- SFX pass: e.g. warp sounds, more sounds
 - Music
-- Change ship / multiple ships
-  [x] tractor beam ship
-  [x] shooting ship
-  [ ] side shooting ship
-- Horizontal levels
+- Cutscenes
+- Better intro, game over and pause screens
+- Save game
 - Enemy ships
   - Regular
   - Bosses
 
 ## Content
 
-- More levels
+- Levels
+  1. Movement intro
+  2. More difficult movement
+  3. Even more difficult movement
+  4. Tractor beam intro
+  5. Movement + tractoring
+  6. Meet Raven
+  7. Change ships + simple shooting
+  8. More shooting
+  9. Shoot + tractor
+  10. Switches
+  11. Switch 'n shoot n' tractor
+  12. combi 1
+  13. combi 2
+  14. combi 3
+  15. Meet Gu11
+  16. Dash intro
+
 - Story
+
 

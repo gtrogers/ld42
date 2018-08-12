@@ -36,7 +36,9 @@ local reload = function (self, level, prevPlayer)
   
   self.color = level.color
   self.player = player(START_X, START_Y)
+  -- FIXME add a set ship method
   if prevPlayer then self.player.ship = prevPlayer.ship end
+  if prevPlayer then self.player.shipIndex = prevPlayer.shipIndex end
   self.leftEdge = vertEdge(1, -32, level.difficulty * 10)
   self.rightEdge = vertEdge(-1, 32*17, level.difficulty * 10)
   self.bulletManager = bullets()

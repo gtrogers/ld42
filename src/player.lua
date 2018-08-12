@@ -81,6 +81,17 @@ local draw = function (self, screen)
       local r = 1 + (self.explodeTime / 2)*32
       love.graphics.circle('fill', self.x + 16, self.y + 16, r)
     end
+
+    if self.ship == 'gull' and not self.exploding then
+      love.graphics.draw(
+        self.gullTarget,
+        self.x,
+        self.y - self.dashDistance * self.direction,
+        0,
+        screen.scale,
+        screen.scale,
+        4, 4)
+    end
 end
 
 local switchShip = function (self)
@@ -95,10 +106,13 @@ return function (x, y)
   local spriteEagle = love.graphics.newImage('assets/ships/eagle.png')
   local spriteRaven = love.graphics.newImage('assets/ships/raven.png')
   local spriteGull = love.graphics.newImage('assets/ships/gull.png')
+  local gullTarget = love.graphics.newImage('assets/ships/gull_target.png')
+  gullTarget:setFilter('nearest', 'nearest')
   spriteEagle:setFilter('nearest', 'nearest')
   spriteRaven:setFilter('nearest', 'nearest')
   spriteGull:setFilter('nearest', 'nearest')
   
+  player.gullTarget = gullTarget
   player.shipIndex = 1
   player.ships = {'eagle', 'raven', 'gull'}
   player.sprites = {eagle=spriteEagle, raven=spriteRaven, gull=spriteGull}

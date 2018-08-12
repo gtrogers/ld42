@@ -1,4 +1,5 @@
 local templates = {}
+  if prevPlayer then self.player.ship = prevPlayer.ship end
 
 local reify = function (self, x, y)
   local tile = {
@@ -218,8 +219,8 @@ templates.TURRET = template(
 local zapSound = love.audio.newSource('assets/sfx/big_laser.wav')
 local zap = function (self, ent, scene, game)
   if ent.is == 'player' then
-    zapSound:play()
-    --ent:explode()
+    if ent.exploding == false then zapSound:play() end
+    ent:explode()
   end
 end
 

@@ -18,7 +18,6 @@ local CYAN   = {0, 255, 255}
 local YELLOW = {255, 255, 0}
 local RED    = {236, 51, 100}
 
--- Intro levels
 levels[1] = level(
   'assets/stages/simple_corridor.png', 1, 'Level 1', CYAN, 2,
   text['intro'], true)
@@ -85,6 +84,26 @@ levels[15] = level(
 
 levels[16] = level(
   'assets/stages/patience.png',
-  1, 'Patience', CYAN, 16)
+  1, 'Patience', CYAN, 17)
  
+levels[17] = level(
+  'assets/stages/more_danger.png',
+  4, 'MORE DANGER!', CYAN, 18)
+
+levels[18] = level(
+  'assets/stages/foundry.png',
+  1, 'Foundry', CYAN, 19)
+
+levels[19] = level(
+  'assets/stages/forge.png',
+  1, 'Forge', CYAN, 20)
+ 
+levels[20] = level(
+  'assets/stages/fire.png',
+  1.5, 'Fire', CYAN, 21, text['revelation_1'], false)
+
+levels[21] = level(
+  'assets/stages/escape.png',
+  1, 'Escape?', CYAN, 1, text['revelation_2'], false)
+  
 return levels

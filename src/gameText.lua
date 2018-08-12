@@ -11,5 +11,7 @@ text['behind_you']  = "Remember you can fly backwards."
 text['beams']       = "Those look dangerous! Better not touch them!"
 text['more_spec']   = "Were these built to keep people out or to keep us in?"
 text['understand']   = "I think we're starting to see.."
+text['revelation_1']   = "It consumes but to what purpose?"
+text['revelation_2']   = "Back to the warp..."
 
 return text

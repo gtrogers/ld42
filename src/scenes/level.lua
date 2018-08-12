@@ -71,6 +71,10 @@ local reload = function (self, level, prevPlayer, levelIndex)
     self.textBox = textBox(level.commMessage)
   end
 
+  for _, ent in ipairs(self.entities) do
+    if ent.reset then ent:reset() end
+  end
+
   if levelIndex then _saveProgress(levelIndex) end
 end
 

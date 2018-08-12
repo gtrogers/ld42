@@ -11,6 +11,11 @@ local _home = function (self)
   return self.homeX == self.x and self.homeY == self.y
 end
 
+local reset = function (self)
+  self.x = self.homeX
+  self.y = self.homeY
+end
+
 local update = function (self, dt, game, scene)
   if self.done then return end
   if not self.tractored and not _home(self) then

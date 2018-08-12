@@ -28,6 +28,12 @@ love.load = function ()
   local font = love.graphics.newFont('assets/PressStart2P-Regular.ttf', 16)
   font:setFilter('nearest', 'nearest')
   love.graphics.setFont(font)
+
+  local music = love.audio.newSource('assets/musak/running_out_of_space.compat.it')
+  music:setLooping(true)
+  music:setVolume(0.8)
+  music:play()
+  GAME.music = music
 end
 
 love.update = function (dt)

@@ -8,6 +8,7 @@ local levels = require('src.levels')
 local turretManager = require('src.ents.turretManager')
 local textBox = require('src.ents.textBox')
 local tractorBeam = require('src.ents.tractorBeam')
+local complete = require('src.scenes.complete')
 
 local START_X = (16*32) / 2 - 16
 local START_Y = 650
@@ -21,6 +22,13 @@ local nextLevel = function (self, game)
   
   local next = levels[self.level.next]
   local nextLevelIndex = self.level.next
+
+  if nextLevelIndex == 22 then
+    -- HACK - end of game detection
+    game.scenes:push(complete())
+    return
+  end
+
   game.scenes:push(between(next.name))
   self:reload(next, self.player, nextLevelIndex)
 end
@@ -133,7 +141,7 @@ end
 local keypressed = function (self, key, game)
   if key == 'escape' then game.scenes:push(pause()) end
   -- FIXME coupling of player and level
-  if key == 'z' then
+  if key == 'z' and not self.textBox then
     if self.player.ship == 'raven' then
       local player = self.player
       self.bulletManager:spawnBullet(
@@ -157,7 +165,7 @@ local keypressed = function (self, key, game)
       end
     end
   end
-  if key == 'x' then
+  if key == 'x' and not self.textBox then
     self.player:switchShip()
   end
 end

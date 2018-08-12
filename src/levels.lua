@@ -12,11 +12,12 @@ local level = function (path, difficulty, name, color, next, commMessage, openCo
   }
 end
 
-local CYAN = {0, 255, 255}
-local RED = {236, 51, 100}
+local CYAN   = {0, 255, 255}
+local YELLOW = {255, 255, 0}
+local RED    = {236, 51, 100}
 
 levels[1] = level(
-  'assets/levels/level_5.png', 1, 'Entry Way', CYAN, 2,
+  'assets/levels/level_1.png', 1, 'Entry Way', CYAN, 2,
   'Use the arrow keys to move.', true)
 levels[2] = level('assets/levels/level_2.png', 1, 'Corridor', CYAN, 3)
 levels[3] = level(
@@ -24,6 +25,7 @@ levels[3] = level(
   'There must be a way to open those gates!'
   )
 levels[4] = level('assets/levels/level_4.png', 1, 'Turret', CYAN, 5)
-levels[5] = level('assets/levels/level_5.png', 1, 'Turret', CYAN, 1)
+levels[5] = level('assets/levels/level_5.png', 1, 'Turret', CYAN, 6)
+levels[6] = level('assets/levels/level_6.png', 1, 'Turret', YELLOW, 1)
 
 return levels

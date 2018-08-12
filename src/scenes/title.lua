@@ -14,7 +14,10 @@ local draw = function (self, screen)
 
   love.graphics.push()
   love.graphics.translate(screen.tall.xOffset, screen.tall.yOffset)
-  love.graphics.printf(self.text, 0, 300, 16 * 32)
+  love.graphics.printf(self.text, 0, 316, 16 * 32, 'center')
+  love.graphics.draw(
+    self.sprite,
+    7*32, 200, 0, screen.scale, screen.scale, 8, 8)
   
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.pop()
@@ -37,17 +40,19 @@ return function ()
 
   scene.saveData = love.filesystem.isFile('trispace.sav')
   if scene.saveData then
-    continue = '  [z] Continue\n'
+    continue = '[z] Continue\n'
   end
 
   scene.text = 
     'TriSpace\n\n'
     .. continue
-    .. '  [c] New Game\n[esc] Quit'
+    .. '[c] New Game\n[esc]   Quit'
   scene.phaser = 0
   scene.update = update
   scene.draw = draw
   scene.keypressed = keypressed
+  scene.sprite = love.graphics.newImage('assets/trispace.png')
+  scene.sprite:setFilter('nearest', 'nearest')
 
   return scene
 end

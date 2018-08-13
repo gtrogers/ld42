@@ -209,7 +209,7 @@ end
 templates.TURRET = template(
   love.graphics.newImage('assets/tiles/turret.png'),
   'turret',
-  'nil',
+  nil,
   collider,
   true,
   nil,
